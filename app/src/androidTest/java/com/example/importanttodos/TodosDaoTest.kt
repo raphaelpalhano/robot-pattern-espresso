@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 class TodosDaoTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-    private lateinit var testDatabase: TodosDatabase
+    private lateinit var testDatabase: AppDatabase
     private lateinit var testDao: TodosDao
 
     @Before
@@ -25,7 +25,7 @@ class TodosDaoTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         testDatabase = Room.inMemoryDatabaseBuilder(
             context,
-            TodosDatabase::class.java
+            AppDatabase::class.java
         ).allowMainThreadQueries().build()
         testDao = testDatabase.todosDao
     }

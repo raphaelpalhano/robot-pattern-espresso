@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.4'
+    implementation 'org.mindrot:jbcrypt:0.4'
 
     // Local Tests
     testImplementation 'junit:junit:4.13.2'
@@ -69,6 +70,13 @@ dependencies {
 
     // Espresso Core - needed for AndroidJUnit4 runner
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation('com.adevinta.android:barista:4.2.0') {
+        exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
+    }
+
+    androidTestImplementation('androidx.test.espresso:espresso-accessibility:' + '3.5.1') {
+        exclude group: 'org.checkerframework', module: 'checker'
+    }
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"

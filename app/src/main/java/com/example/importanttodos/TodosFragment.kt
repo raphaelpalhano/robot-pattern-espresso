@@ -21,7 +21,7 @@ class TodosFragment : Fragment() {
         _binding = FragmentTodosBinding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
-        val dao = TodosDatabase.getInstance(application).todosDao
+        val dao = AppDatabase.getInstance(application).todosDao
         val viewModelFactory = TodosViewModelFactory(dao)
         val viewModel = ViewModelProvider(this, viewModelFactory)[TodosViewModel::class.java]
         val adapter = TodoItemAdapter { todoId ->
