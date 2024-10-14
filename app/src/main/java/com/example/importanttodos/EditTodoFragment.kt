@@ -22,7 +22,7 @@ class EditTodoFragment : Fragment() {
 
         val todoId = EditTodoFragmentArgs.fromBundle(requireArguments()).todoId
         val application = requireNotNull(this.activity).application
-        val dao = TodosDatabase.getInstance(application).todosDao
+        val dao = AppDatabase.getInstance(application).todosDao
         val viewModelFactory = EditTodoViewModelFactory(todoId, dao)
         val viewModel = ViewModelProvider(this, viewModelFactory)[EditTodoViewModel::class.java]
 

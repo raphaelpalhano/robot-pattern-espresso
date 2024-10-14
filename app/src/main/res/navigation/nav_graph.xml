@@ -3,27 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/todosFragment">
+    app:startDestination="@id/loginTodo">
 
     <fragment
-        android:id="@+id/todosFragment"
-        android:name="com.example.importanttodos.TodosFragment"
-        android:label="fragment_todos"
-        tools:layout="@layout/fragment_todos" >
+        android:id="@+id/loginTodo"
+        android:name="com.example.importanttodos.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/login_user" >
         <action
-            android:id="@+id/action_todosFragment_to_editTodoFragment"
-            app:destination="@id/editTodoFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/editTodoFragment"
-        android:name="com.example.importanttodos.EditTodoFragment"
-        android:label="fragment_edit_todo"
-        tools:layout="@layout/fragment_edit_todo" >
-        <action
-            android:id="@+id/action_editTodoFragment_to_todosFragment"
+            android:id="@+id/action_loginFragment_to_todosFragment"
             app:destination="@id/todosFragment" />
-        <argument
-            android:name="todoId"
-            app:argType="long" />
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+        app:destination="@id/signupFragment" />
     </fragment>
-</navigation>
+
+        <fragment
+            android:id="@+id/signupFragment"
+        android:name="com.example.importanttodos.SignupFragment"
+        android:label="fragment_signup"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+        app:destination="@id/loginTodo" />
+        </fragment>
+
+    <fragment
+    android:id="@+id/todosFragment"
+    android:name="com.example.importanttodos.TodosFragment"
+    android:label="fragment_todos"
+    tools:layout="@layout/fragment_todos" >
+    <action
+        android:id="@+id/action_todosFragment_to_editTodoFragment"
+        app:destination="@id/editTodoFragment" />
+    </fragment>
+
+    <fragment
+    android:id="@+id/editTodoFragment"
+    android:name="com.example.importanttodos.EditTodoFragment"
+    android:label="fragment_edit_todo"
+    tools:layout="@layout/fragment_edit_todo" >
+    <action
+        android:id="@+id/action_editTodoFragment_to_todosFragment"
+        app:destination="@id/todosFragment" />
+    <argument
+        android:name="todoId"
+        app:argType="long" />
+    </fragment>
+
+    </navigation>
