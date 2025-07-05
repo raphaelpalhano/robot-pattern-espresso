@@ -1,13 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id "com.google.devtools.ksp"
     id 'androidx.navigation.safeargs'
 }
 
 android {
     namespace 'com.example.importanttodos'
-    compileSdk 34
+    compileSdkVersion 35
+    buildToolsVersion "35.0.0"
 
     defaultConfig {
         applicationId "com.example.importanttodos"
@@ -15,14 +16,39 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "com.example.importanttodos.test.CucumberTestInstrumentation"
+        testInstrumentationRunnerArguments(
+                optionsAnnotationPackage: "com.example.importanttodos.test"
+        )
+        ksp {
+            arg("room.incremental", "true")
+            arg("room.expandProjection", "true")
+        }
+        testOptions {
+            execution 'ANDROIDX_TEST_ORCHESTRATOR'
+            animationsDisabled true
+        }
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    kotlin {
+        jvmToolchain(17)
+    }
+
+    sourceSets {
+        androidTest {
+            assets.srcDirs = ['src/androidTest/assets']
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
         }
     }
 
@@ -34,13 +60,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = '17'
-    }
+
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
@@ -48,54 +71,40 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.4'
     implementation 'org.mindrot:jbcrypt:0.4'
 
-    // Local Tests
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
     testImplementation 'io.mockk:mockk:1.13.8'
     testImplementation "com.google.truth:truth:1.2.0"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0-RC2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2'
 
-    // Instrumented Tests
-    // Kotlin Coroutines testing support (we added this in the last tutorial)
-    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0-RC2'
-
-    // Since this needs to run on an Android device we must add this one to get the RunWith(AndroidJUnit4::class)
-    androidTestImplementation "androidx.test.ext:junit:1.1.5"
-
-    // To test LiveData we also need Arch Core
+    androidTestImplementation "io.cucumber:cucumber-android:7.18.1"
+    androidTestImplementation "io.cucumber:cucumber-picocontainer:7.18.1"
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
+    androidTestImplementation "androidx.test.ext:junit:1.2.1"
     androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
-
-    // Assertion library for more readable assertions
     androidTestImplementation "com.google.truth:truth:1.2.0"
-
-    // Espresso Core - needed for AndroidJUnit4 runner
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test:rules:1.6.1'
+    androidTestUtil        'androidx.test:orchestrator:1.6.0-beta01'
     androidTestImplementation('com.adevinta.android:barista:4.2.0') {
-        exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
+        exclude group: 'org.jetbrains.kotlin'
     }
-
-    androidTestImplementation('androidx.test.espresso:espresso-accessibility:' + '3.5.1') {
+    androidTestImplementation('androidx.test.espresso:espresso-accessibility:3.5.1') {
         exclude group: 'org.checkerframework', module: 'checker'
     }
 
-    // Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-
-    // Room DB
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-
-    // Room KTX for Coroutines
+    ksp "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
-
-    // Recycler View
     implementation "androidx.recyclerview:recyclerview:1.3.2"
-
-    // Card View
     implementation 'androidx.cardview:cardview:1.0.0'
-
-    // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+}
+
+def getTestTags() {
+    return project.hasProperty("tags") ? project.getProperties().get("tags") : ""
 }

@@ -1,4 +1,4 @@
-package com.example.importanttodos
+package com.example.importanttodos.example
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -17,3 +17,8 @@ Watch the YouTube videos here:
 
 ### License
 [MIT](https://choosealicense.com/licenses/mit/)
+
+
+## run Integration test cucumber
+
+./gradlew clean connectedDebugAndroidTest

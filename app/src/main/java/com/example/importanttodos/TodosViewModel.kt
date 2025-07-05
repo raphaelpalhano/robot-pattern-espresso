@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class TodosViewModel(val dao: TodosDao): ViewModel() {
@@ -13,7 +14,7 @@ class TodosViewModel(val dao: TodosDao): ViewModel() {
     val navigateToTodo: LiveData<Long?> get() = _navigateToTodo
 
     fun addTodo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val todo = Todo()
             todo.title = newTodoTitle
             dao.insert(todo)

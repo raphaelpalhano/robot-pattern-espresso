@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 
@@ -16,30 +17,30 @@ class LoginViewModel(private val dao: UserDao) : ViewModel() {
 
     fun login(email: String, inputPassword: String) {
         if (email.isEmpty()) {
-            _errorMessage.value = "Por favor, insira o e-mail."
+            _errorMessage.postValue("Por favor, insira o e-mail.")
             return
         }
 
         if (inputPassword.isEmpty()) {
-            _errorMessage.value = "Por favor, insira a senha."
+            _errorMessage.postValue( "Por favor, insira a senha.")
             return
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val user = dao.getUserEmail(email)
                 if (user != null) {
                     // Verifica a senha usando BCrypt
                     if (BCrypt.checkpw(inputPassword, user.password)) {
-                        _navigateToList.value = true
+                        _navigateToList.postValue( true)
                     } else {
-                        _errorMessage.value = "Senha inválida."
+                        _errorMessage.postValue("Senha inválida.")
                     }
                 } else {
-                    _errorMessage.value = "Usuário não encontrado."
+                    _errorMessage.postValue("Usuário não encontrado.")
                 }
             } catch (e: Exception) {
-                _errorMessage.value = "Erro ao tentar logar."
+                _errorMessage.postValue("Erro ao tentar logar.")
             }
         }
     }

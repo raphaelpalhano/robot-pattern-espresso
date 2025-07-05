@@ -1,4 +1,4 @@
-package com.example.importanttodos
+package com.example.importanttodos.example
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -7,6 +7,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.importanttodos.MainActivity
+import com.example.importanttodos.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -24,6 +26,7 @@ class TodosIntegrationTest {
         onView(withId(R.id.email_input)).perform(ViewActions.typeText(User.email))
         onView(withId(R.id.password_input)).perform(ViewActions.typeText(User.pass))
         onView(withId(R.id.siginup_button)).perform(ViewActions.click())
+
     }
 
 
@@ -35,7 +38,6 @@ class TodosIntegrationTest {
         val originalValueTitle = "Coffe help you"
         onView(withId(R.id.todo_title)).perform(ViewActions.typeText(originalValueTitle))
         onView(withId(R.id.todo_save_button)).perform(ViewActions.click())
-
 
     }
 

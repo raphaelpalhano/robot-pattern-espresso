@@ -7,19 +7,19 @@ import androidx.room.*
 interface UserDao {
 
     @Insert
-    suspend fun insert(user: User)
+    fun insert(user: User)
 
     @Update
-    suspend fun update(user: User)
+    fun update(user: User)
 
     @Delete
-    suspend fun delete(user: User)
+    fun delete(user: User)
 
     @Query("SELECT * FROM user WHERE id = :userId")
-    suspend fun get(userId: Long): User?
+    fun get(userId: Long): LiveData<User?>
 
     @Query("SELECT * FROM user WHERE email = :email")
-    suspend fun getUserEmail(email: String): User?
+    fun getUserEmail(email: String): User?
 
     @Query("SELECT * FROM user ORDER BY id DESC")
     fun getAll(): LiveData<List<User>>
