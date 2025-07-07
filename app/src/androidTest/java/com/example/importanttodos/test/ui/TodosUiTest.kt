@@ -23,7 +23,7 @@ import org.junit.runner.RunWith
  * - Testes são independentes e reproduzíveis
  */
 @RunWith(AndroidJUnit4::class)
-class TodosIntegrationTest {
+class TodosUiTest {
     
     // Screens para interação com a UI
     private val loginScreen: LoginScreen = LoginScreen()
