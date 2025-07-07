@@ -5,14 +5,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.importanttodos.SignupViewModel" />
+            type="com.example.importanttodos.signup.SignupViewModel" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FDFAFA"
-        tools:context=".SignupFragment">
+        tools:context=".signup.SignupFragment">
 
         <LinearLayout
             android:layout_width="match_parent"

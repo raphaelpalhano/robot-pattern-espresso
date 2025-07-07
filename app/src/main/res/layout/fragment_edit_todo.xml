@@ -5,13 +5,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.importanttodos.EditTodoViewModel" />
+            type="com.example.importanttodos.todo.EditTodoViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".EditTodoFragment"
+        tools:context=".todo.EditTodoFragment"
         android:orientation="vertical"
         android:layout_marginHorizontal="10dp">
 
