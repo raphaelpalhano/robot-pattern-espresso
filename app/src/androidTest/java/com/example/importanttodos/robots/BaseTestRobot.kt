@@ -1,4 +1,4 @@
-package com.example.importanttodos.screen
+package com.example.importanttodos.robots
 
 import android.app.Activity
 import android.content.Context
@@ -25,17 +25,15 @@ import androidx.test.espresso.matcher.ViewMatchers.withHint
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.platform.app.InstrumentationRegistry
 
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
-import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
 
-open class BaseScreen {
+abstract class BaseTestRobot {
 
     private val activityContext: Activity? = null
 
