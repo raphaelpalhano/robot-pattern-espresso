@@ -110,3 +110,32 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
 }
+
+
+tasks.register("unitTests") {
+    group = "verification"
+    description = "Executa unit tests via testDebugUnitTest"
+    dependsOn "testDebugUnitTest"
+}
+
+tasks.register("integrationTests", Exec) {
+    group = "verification"
+    description = "Executa integration tests"
+    workingDir = project.rootDir
+    executable = './gradlew'
+    args = [
+            "connectedDebugAndroidTest",
+            "-Pandroid.testInstrumentationRunnerArguments.package=com.example.importanttodos.test.integration"
+    ]
+}
+
+tasks.register("uiTests", Exec) {
+    group = "verification"
+    description = "Executa UI tests no pacote test.ui"
+    workingDir = project.rootDir
+    executable = "./gradlew"
+    args = [
+            "connectedDebugAndroidTest",
+            "-Pandroid.testInstrumentationRunnerArguments.package=com.example.importanttodos.test.ui"
+    ]
+}
