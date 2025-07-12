@@ -1,12 +1,10 @@
-package com.example.importanttodos.test.integration
+package com.example.importanttodos.test.ui
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.importanttodos.MainActivity
 import com.example.importanttodos.data.User
 import com.example.importanttodos.common.rule.TestDatabaseRule
-import com.example.importanttodos.robots.LoginRobot
-import com.example.importanttodos.robots.TodosRobot
 import com.example.importanttodos.robots.login
 import com.example.importanttodos.robots.result
 import com.example.importanttodos.robots.todos
