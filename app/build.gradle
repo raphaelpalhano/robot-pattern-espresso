@@ -120,7 +120,7 @@ tasks.register("unitTests") {
 
 tasks.register("integrationTests", Exec) {
     group = "verification"
-    description = "Executa integration tests"
+    description = "Executa integration test"
     workingDir = project.rootDir
     executable = './gradlew'
     args = [

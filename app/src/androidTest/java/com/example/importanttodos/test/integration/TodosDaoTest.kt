@@ -1,4 +1,4 @@
-package com.example.importanttodos.test.dao
+package com.example.importanttodos.test.integration
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
