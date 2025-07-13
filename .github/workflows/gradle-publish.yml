@@ -31,12 +31,12 @@ jobs:
       - name: Instalar Android SDK
         uses: android-actions/setup-android@v3
         with:
-          api-level: 35
-          build-tools: "35.0.0"
+          api-level: 30
+          build-tools: "30.0.3"
           components: |
             platform-tools
             emulator
-            system-images;android-35;google_apis;x86_64
+            system-images;android-30;google_apis;x86_64
 
       - name: Assemble Debug APK
         run: ./gradlew assembleDebug
@@ -91,29 +91,36 @@ jobs:
       - name: Instalar Android SDK
         uses: android-actions/setup-android@v3
         with:
-          api-level: 35
-          build-tools: "35.0.0"
+          api-level: 30
+          build-tools: "30.0.3"
           components: |
             platform-tools
             emulator
-            system-images;android-35;google_apis;x86_64
+            system-images;android-30;google_apis;x86_64
 
       - name: Execute integration tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: 30
           target: google_apis
           arch: x86_64
+          ram-size: 2048M
+          disk-size: 4096M
+          heap-size: 512M
+          cores: 2
           force-avd-creation: true
           disable-linux-hw-accel: true
-          emulator-boot-timeout: 600
-          emulator-options: -no-window -no-audio -no-snapshot
+          emulator-boot-timeout: 900
+          emulator-options: -no-window -no-audio -no-snapshot-save -no-snapshot-load -camera-back none -camera-front none -gpu swiftshader_indirect
           script: |
-            adb wait-for-device
+            echo "Waiting for emulator to be ready..."
+            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\''\r'\'') ]]; do sleep 1; done; input keyevent 82'
+            echo "Emulator is ready, running tests..."
             ./gradlew integrationTests
 
       - name: Upload integration-test reports
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: integration-test-results
           path: |
@@ -145,29 +152,36 @@ jobs:
       - name: Instalar Android SDK
         uses: android-actions/setup-android@v3
         with:
-          api-level: 35
-          build-tools: "35.0.0"
+          api-level: 30
+          build-tools: "30.0.3"
           components: |
             platform-tools
             emulator
-            system-images;android-35;google_apis;x86_64
+            system-images;android-30;google_apis;x86_64
 
       - name: Execute UI tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: 30
           target: google_apis
           arch: x86_64
+          ram-size: 2048M
+          disk-size: 4096M
+          heap-size: 512M
+          cores: 2
           force-avd-creation: true
           disable-linux-hw-accel: true
-          emulator-boot-timeout: 600
-          emulator-options: -no-window -no-audio -no-snapshot
+          emulator-boot-timeout: 900
+          emulator-options: -no-window -no-audio -no-snapshot-save -no-snapshot-load -camera-back none -camera-front none -gpu swiftshader_indirect
           script: |
-            adb wait-for-device
+            echo "Waiting for emulator to be ready..."
+            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\''\r'\'') ]]; do sleep 1; done; input keyevent 82'
+            echo "Emulator is ready, running tests..."
             ./gradlew uiTests
 
       - name: Upload UI-test reports
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: ui-test-results
           path: |
@@ -178,6 +192,7 @@ jobs:
   upload-reports:
     needs: ui-tests
     runs-on: ubuntu-latest
+    if: always()
     steps:
       - name: Publish all test artifacts
         uses: actions/upload-artifact@v4
