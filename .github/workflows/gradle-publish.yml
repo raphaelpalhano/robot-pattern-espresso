@@ -114,7 +114,14 @@ jobs:
           emulator-options: -no-window -no-audio -no-snapshot-save -no-snapshot-load -camera-back none -camera-front none -gpu swiftshader_indirect
           script: |
             echo "Waiting for emulator to be ready..."
-            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\''\r'\'') ]]; do sleep 1; done; input keyevent 82'
+            adb wait-for-device
+            echo "Device detected, waiting for boot completion..."
+            while [[ -z $(adb shell getprop sys.boot_completed | tr -d '\r') ]]; do
+              echo "Still booting..."
+              sleep 5
+            done
+            echo "Boot completed, waiting for services..."
+            sleep 10
             echo "Emulator is ready, running tests..."
             ./gradlew integrationTests
 
@@ -175,7 +182,14 @@ jobs:
           emulator-options: -no-window -no-audio -no-snapshot-save -no-snapshot-load -camera-back none -camera-front none -gpu swiftshader_indirect
           script: |
             echo "Waiting for emulator to be ready..."
-            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\''\r'\'') ]]; do sleep 1; done; input keyevent 82'
+            adb wait-for-device
+            echo "Device detected, waiting for boot completion..."
+            while [[ -z $(adb shell getprop sys.boot_completed | tr -d '\r') ]]; do
+              echo "Still booting..."
+              sleep 5
+            done
+            echo "Boot completed, waiting for services..."
+            sleep 10
             echo "Emulator is ready, running tests..."
             ./gradlew uiTests
 
